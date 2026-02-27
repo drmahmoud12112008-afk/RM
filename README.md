@@ -1,19 +1,22 @@
 <div align="center">
+  
+# <img src="https://img.icons8.com/fluency/48/000000/idea.png"/> نظام RM المتكامل
 
-<!-- الشعار مع رابط المتصفح -->
-<a href="https://rm-dr-mahmoud.web.app" target="_blank">
-  <img src="https://i.postimg.cc" width="220" alt="RM Logo">
-</a>
+### ✨ حيث تلتقي التكنولوجيا بالابتكار ✨
 
-# 🔴 RM BROWSER | PREMIUM PRO
-### **RAGHED & MAHMOUD SOFTWARE SOLUTIONS**
+![الإصدار](https://img.shields.io/badge/الإصدار-2.0.0-blue?style=for-the-badge)
+![الترخيص](https://img.shields.io/badge/الترخيص-MIT-green?style=for-the-badge)
+![الباني](https://img.shields.io/badge/الباني-Electron-47848F?style=for-the-badge)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+
+<!-- هنا تم وضع الرابط الجديد للشعار -->
+<img src="https://i.postimg.cc/XqBjdtCq/gpt-image-1-5-high-fidelity-a-aj-l-alhrwf-hmra-1-removebg-preview-1.png" width="200" alt="RM Logo"/>
 
 ---
 
-[![Website](https://img.shields.io)](https://rm-dr-mahmoud.web.app)
-[![Founders](https://img.shields.io)](https://github.com)
+### 🚀 **نظام بحث ذكي + لوحة تحكم + مصادقة آمنة**
+
+[![معاينة](https://img.shields.io/badge/🔍_معاينة_مباشرة-00f2fe?style=for-the-badge)](https://yourdomain.com)
+[![تحميل](https://img.shields.io/badge/📥_تحميل_EXE-00c6ff?style=for-the-badge)](https://github.com/yourusername/rm-system/releases)
 
 </div>
-
-## 📌 نبذة عن الشعار (Logo Identity)
-يمثل شعار **RM** الأحمر القوة والسرعة والشغف الذي يضعه **رغد ومحمود** في تطوير هذا المتصفح. التصميم مفرغ (PNG) ليتناسب مع الخلفيات الداكنة (Dark Mode) التي نعتمدها في مشروعنا البريميوم.
