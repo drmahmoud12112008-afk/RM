@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RM | لوحة التحكم السرية</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0c29;
+            --accent: #00f2fe;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: var(--bg); color: white; padding: 40px; display: flex; justify-content: center; }
+        
+        .admin-panel {
+            width: 100%; max-width: 800px;
+            background: var(--glass); backdrop-filter: blur(20px);
+            padding: 30px; border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        h2 { color: var(--accent); margin-bottom: 25px; text-align: center; font-size: 28px; }
+        
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
+        
+        input {
+            width: 100%; padding: 12px 20px; border-radius: 12px;
+            border: none; background: rgba(0,0,0,0.3); color: white;
+            font-size: 16px; outline: none; border: 1px solid transparent;
+        }
+        input:focus { border-color: var(--accent); }
+
+        .btn-save {
+            width: 100%; padding: 15px; border-radius: 12px; border: none;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white; font-weight: bold; cursor: pointer; font-size: 18px;
+            transition: 0.3s;
+        }
+        .btn-save:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 198, 255, 0.4); }
+
+        .links-list { margin-top: 40px; }
+        .link-item {
+            background: rgba(255,255,255,0.05); padding: 15px;
+            border-radius: 12px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .delete-btn { color: #ff5555; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-panel">
+        <h2>لوحة إدارة الاختصارات (RM System)</h2>
+        
+        <div class="input-group">
+            <label>الرابط الأساسي (الوجهة الحقيقية)</label>
+            <input type="text" id="realUrl" placeholder="مثال: https://google.com">
+        </div>
+
+        <div class="input-group">
+            <label>الكلمات الوهمية (افصل بينها بـ -)</label>
+            <input type="text" id="fakeNames" placeholder="جوجل - قوقل - غوغل">
+        </div>
+
+        <div class="input-group">
+            <label>الرابط الوهمي الذي سيظهر</label>
+            <input type="text" id="fakeUrl" placeholder="مثال: https://google.RM">
+        </div>
+
+        <button class="btn-save" onclick="saveShortcut()">إضافة الاختصار للنظام</button>
+
+        <div class="links-list" id="shortcutsList">
+            <!-- سيتم عرض الاختصارات هنا -->
+        </div>
+    </div>
+
+    <script>
+        function saveShortcut() {
+            const real = document.getElementById('realUrl').value;
+            const names = document.getElementById('fakeNames').value;
+            const fake = document.getElementById('fakeUrl').value;
+
+            if(!real || !names) return alert("أكمل البيانات");
+
+            const shortcut = { real, names: names.split('-').map(n => n.trim()), fake };
+            
+            let stored = JSON.parse(localStorage.getItem('rm_shortcuts') || '[]');
+            stored.push(shortcut);
+            localStorage.setItem('rm_shortcuts', JSON.stringify(stored));
+            
+            alert("تم حفظ الاختصار بنجاح في نظام RM");
+            location.reload();
+        }
+
+        // عرض الاختصارات المضافة
+        const list = document.getElementById('shortcutsList');
+        const stored = JSON.parse(localStorage.getItem('rm_shortcuts') || '[]');
+        stored.forEach((s, index) => {
+            list.innerHTML += `
+                <div class="link-item">
+                    <div>
+                        <strong>${s.names.join(', ')}</strong> <br>
+                        <small style="color: #00f2fe">${s.fake}</small>
+                    </div>
+                    <span class="delete-btn" onclick="deleteShortcut(${index})">حذف</span>
+                </div>
+            `;
+        });
+
+        function deleteShortcut(index) {
+            let stored = JSON.parse(localStorage.getItem('rm_shortcuts') || '[]');
+            stored.splice(index, 1);
+            localStorage.setItem('rm_shortcuts', JSON.stringify(stored));
+            location.reload();
+        }
+    </script>
+</body>
+</html>

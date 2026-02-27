@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RM | تأمين الاتصال</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #00f2fe;
+            --bg: #050510;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
+        body {
+            background: var(--bg);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* شريط العنوان العلوي */
+        .top-nav {
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.3);
+        }
+
+        .rm-logo {
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--neon);
+            text-shadow: 0 0 15px var(--neon);
+        }
+
+        .fake-url-bar {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--neon);
+            letter-spacing: 1px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        /* منطقة الأنيميشن المركزية */
+        .main-view {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .neon-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--neon);
+            border-bottom-color: var(--neon);
+            animation: rotate 2s linear infinite;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
+        }
+
+        .neon-circle::after {
+            content: "";
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-left-color: #ff00ff;
+            border-right-color: #ff00ff;
+            animation: rotate-reverse 1.5s linear infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotate-reverse {
+            to { transform: rotate(-360deg); }
+        }
+
+        .status-text {
+            margin-top: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .dots-loading::after {
+            content: "";
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ""; }
+            40% { content: "."; }
+            60% { content: ".."; }
+            80% { content: "..."; }
+        }
+
+        .progress-bar-container {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon), #ff00ff);
+            box-shadow: 0 0 15px var(--neon);
+            animation: fillProgress 2.5s ease-in-out forwards;
+        }
+
+        @keyframes fillProgress {
+            to { width: 100%; }
+        }
+
+        .bg-grid {
+            position: absolute;
+            width: 200%; height: 200%;
+            background-image: linear-gradient(rgba(0, 242, 254, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 242, 254, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: moveGrid 10s linear infinite;
+            z-index: -1;
+            top: -50%;
+        }
+
+        @keyframes moveGrid {
+            from { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            to { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <header class="top-nav">
+        <div class="rm-logo">RM SYSTEM</div>
+        <div id="urlDisplay" class="fake-url-bar">SECURE_CONNECTING...</div>
+    </header>
+
+    <main class="main-view">
+        <div class="neon-circle"></div>
+        
+        <div class="status-text">
+            جاري توجيه المسار عبر خوادم <span style="color:var(--neon)">RM</span>
+            <span class="dots-loading"></span>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <p style="margin-top: 15px; font-size: 12px; color: rgba(255,255,255,0.4);">الوضع: آمن ومحمي بنظام RM v2.0</p>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('q');
+        const urlDisplay = document.getElementById('urlDisplay');
+
+        // جلب الاختصارات
+        const stored = JSON.parse(localStorage.getItem('rm_shortcuts') || '[]');
+
+        if (query) {
+            // البحث عن اختصار
+            const match = stored.find(s => s.names.some(n => n.toLowerCase() === query.toLowerCase()));
+            
+            if (match) {
+                urlDisplay.innerText = match.fake; // عرض الرابط الوهمي
+                // التوجه بعد انتهاء الأنيميشن (2.5 ثانية)
+                setTimeout(() => {
+                    window.location.href = match.real;
+                }, 2800);
+            } else {
+                // بحث جوجل العادي
+                urlDisplay.innerText = `https://www.google.com{query}`;
+                setTimeout(() => {
+                    window.location.href = `https://www.google.com{encodeURIComponent(query)}`;
+                }, 2800);
+            }
+        } else {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
